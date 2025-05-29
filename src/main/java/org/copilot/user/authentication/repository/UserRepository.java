@@ -1,6 +1,6 @@
 package org.copilot.user.authentication.repository;
 
-import org.copilot.user.authentication.model.User;
+import org.copilot.user.authentication.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

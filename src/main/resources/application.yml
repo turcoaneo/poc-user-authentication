@@ -9,3 +9,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    user:
+      name: ovidiu
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html

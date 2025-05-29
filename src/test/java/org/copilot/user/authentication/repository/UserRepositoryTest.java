@@ -1,7 +1,7 @@
 package org.copilot.user.authentication.repository;
 
-import org.copilot.user.authentication.model.Role;
-import org.copilot.user.authentication.model.User;
+import org.copilot.user.authentication.model.entity.Role;
+import org.copilot.user.authentication.model.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
