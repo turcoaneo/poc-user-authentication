@@ -1,0 +1,36 @@
+package org.copilot.user.authentication.repository;
+
+import org.copilot.user.authentication.model.Role;
+import org.copilot.user.authentication.model.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DataJpaTest
+class UserRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void testFindByUsername() {
+        // Arrange
+        User user = new User();
+        user.setUsername("testUser");
+        user.setPassword("securePass");
+        user.setRole(Role.EMPLOYEE);
+        userRepository.save(user);
+
+        // Act
+        Optional<User> foundUser = userRepository.findByUsername("testUser");
+
+        // Assert
+        assertTrue(foundUser.isPresent());
+        assertEquals("testUser", foundUser.get().getUsername());
+    }
+}
