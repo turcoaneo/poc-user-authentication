@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.copilot.user.authentication.aop.UserAuthorize;
 import org.copilot.user.authentication.model.dto.UserDTO;
+import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,18 @@ public class UserController {
 
     @Operation(summary = "Fetch a user by username")
     @SecurityRequirement(name = "BearerAuth")
-    @UserAuthorize("ROLE_ADMIN")
+    @UserAuthorize({UserRole.ADMIN})
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         return ResponseEntity.ok(userService.findByUsername(username));
+    }
+
+    @Operation(summary = "Test Employer and Admin roles authorization")
+    @SecurityRequirement(name = "BearerAuth")
+    @UserAuthorize({UserRole.ADMIN, UserRole.EMPLOYER})
+    @GetMapping("/employer")
+    public ResponseEntity<String> getTestEmployer() {
+        return ResponseEntity.ok("Test employer");
     }
 
     @Operation(summary = "Authenticate user and return JWT")

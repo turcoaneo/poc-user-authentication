@@ -18,7 +18,7 @@ public class UserDTO {
         }
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.role = user.getRole().name(); // Convert Enum to String
+        this.role = user.getUserRole().name(); // Convert Enum to String
     }
 
 }

@@ -2,7 +2,7 @@ package org.copilot.user.authentication.service;
 
 import lombok.RequiredArgsConstructor;
 import org.copilot.user.authentication.model.dto.UserDTO;
-import org.copilot.user.authentication.model.entity.Role;
+import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.model.entity.User;
 import org.copilot.user.authentication.repository.UserRepository;
 import org.copilot.user.authentication.service.util.JwtUtil;
@@ -20,7 +20,7 @@ public class UserService {
 
     public UserDTO saveUser(UserDTO userDTO) {
         String password = passwordEncoder.encode(userDTO.getPassword());
-        User user = new User(null, userDTO.getUsername(), password, Role.valueOf(userDTO.getRole()));
+        User user = new User(null, userDTO.getUsername(), password, UserRole.valueOf(userDTO.getRole()));
         User savedUser = userRepository.save(user);
         return new UserDTO(savedUser);
     }
@@ -30,7 +30,7 @@ public class UserService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return JwtUtil.generateToken(user.getRole().name()); // Return JWT token
+                return JwtUtil.generateToken(user.getUserRole().name()); // Return JWT token
             }
         }
         return null;

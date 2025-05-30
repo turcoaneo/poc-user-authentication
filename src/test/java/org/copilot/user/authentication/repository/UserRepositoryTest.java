@@ -1,6 +1,6 @@
 package org.copilot.user.authentication.repository;
 
-import org.copilot.user.authentication.model.entity.Role;
+import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.model.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testUser");
         user.setPassword("securePass");
-        user.setRole(Role.EMPLOYEE);
+        user.setUserRole(UserRole.EMPLOYEE);
         userRepository.save(user);
 
         // Act

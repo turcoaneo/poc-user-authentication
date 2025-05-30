@@ -3,7 +3,7 @@ package org.copilot.user.authentication.service;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.copilot.user.authentication.model.entity.Role;
+import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.model.entity.User;
 import org.copilot.user.authentication.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class UserServiceTest {
     // Test authenticateUser() - Success Case
     @Test
     void testAuthenticateUser_Success() {
-        User mockUser = new User(1L, "testUser", passwordEncoder.encode("correctPassword"), Role.ADMIN);
+        User mockUser = new User(1L, "testUser", passwordEncoder.encode("correctPassword"), UserRole.ADMIN);
         
         when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(mockUser));
 
@@ -49,7 +49,7 @@ public class UserServiceTest {
     // Test authenticateUser() - Incorrect Password
     @Test
     void testAuthenticateUser_IncorrectPassword() {
-        User mockUser = new User(1L, "testUser", passwordEncoder.encode("correctPassword"), Role.ADMIN);
+        User mockUser = new User(1L, "testUser", passwordEncoder.encode("correctPassword"), UserRole.ADMIN);
 
         when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(mockUser));
 

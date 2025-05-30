@@ -2,11 +2,13 @@ package org.copilot.user.authentication.aop;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.copilot.user.authentication.model.entity.UserRole;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Aspect
 @Component
@@ -21,11 +23,17 @@ public class UserAuthorizeAspect {
         }
 
         String role = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+                .map(auth -> auth.getAuthority().replace("ROLE_", "")) // Extract enum-compatible role name
                 .findFirst().orElse("");
 
-        if (!userAuthorize.value().equals(role)) {
+        boolean hasAccess = Arrays.stream(userAuthorize.value())
+                .map(UserRole::name)
+                .anyMatch(role::equals);
+
+        if (!hasAccess) {
             throw new AuthorizationException("Forbidden access", HttpStatus.FORBIDDEN);
         }
+
+
     }
 }
