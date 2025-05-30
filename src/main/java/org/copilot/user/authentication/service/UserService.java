@@ -29,7 +29,7 @@ public class UserService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return JwtUtil.generateToken(user.getUsername()); // Return JWT token
+                return JwtUtil.generateToken(user.getRole().name()); // Return JWT token
             }
         }
         return null;
