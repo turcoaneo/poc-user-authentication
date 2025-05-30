@@ -18,3 +18,7 @@ springdoc:
     enabled: true
   swagger-ui:
     path: /swagger-ui.html
+
+jwt:
+#  secretKey: ENV var
+  expirationMinutes: 60

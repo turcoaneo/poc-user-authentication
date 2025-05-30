@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -30,7 +31,7 @@ public class UserService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return JwtUtil.generateToken(user.getUserRole().name()); // Return JWT token
+                return jwtUtil.generateToken(user.getUserRole().name()); // Return JWT token
             }
         }
         return null;
