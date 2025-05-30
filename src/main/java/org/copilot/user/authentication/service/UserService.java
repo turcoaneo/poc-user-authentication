@@ -6,13 +6,14 @@ import org.copilot.user.authentication.model.entity.Role;
 import org.copilot.user.authentication.model.entity.User;
 import org.copilot.user.authentication.repository.UserRepository;
 import org.copilot.user.authentication.service.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
