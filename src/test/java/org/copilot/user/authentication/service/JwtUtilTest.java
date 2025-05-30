@@ -2,6 +2,7 @@ package org.copilot.user.authentication.service;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.copilot.user.authentication.service.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class JwtUtilTest {
 
     @BeforeEach
     void setUp() {
-        ReflectionTestUtils.setField(jwtUtil, "SECRET_KEY", "someUsefulLargeEnoughSecretKeyToBeAtLeast256Bits");
+        System.setProperty("SECRET_KEY", "someUsefulLargeEnoughSecretKeyToBeAtLeast256Bits");
         ReflectionTestUtils.setField(jwtUtil, "expirationMinutes", 60);
     }
 
@@ -51,12 +53,17 @@ public class JwtUtilTest {
                 .claims().subject("USER").and()
                 .issuedAt(Date.from(issuedAt))
                 .expiration(Date.from(expiration))
-                .signWith(JwtUtil.getSigningKey(), Jwts.SIG.HS256)
+                .signWith(this.getTestSigningKey(), Jwts.SIG.HS256)
                 .compact();
 
         JwtException exception = assertThrows(JwtException.class, () -> JwtUtil.getRoleFromToken(expiredToken));
         assertEquals("Invalid or expired token", exception.getMessage());
     }
+
+    private SecretKey getTestSigningKey() {
+        return Keys.hmacShaKeyFor("someUsefulLargeEnoughSecretKeyToBeAtLeast256Bits".getBytes());
+    }
+
 
     @Test
     void testInvalidToken_ThrowsException() {

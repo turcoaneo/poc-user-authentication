@@ -17,9 +17,6 @@ public class JwtUtil {
     @Value("${jwt.expirationMinutes}")
     private long expirationMinutes;
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static String SECRET_KEY = System.getenv("SECRET_KEY"); // Load from env variable
-
     public String generateToken(String role) {
         return Jwts.builder()
                 .claims().subject(role).and()
@@ -29,7 +26,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static SecretKey getSigningKey() {
+    private static SecretKey getSigningKey() {
+        final String keyName = "SECRET_KEY";
+        final String secretKey = System.getenv(keyName);
+        final String SECRET_KEY = secretKey == null ? System.getProperty(keyName) : System.getenv(keyName);
         if (SECRET_KEY == null || SECRET_KEY.isEmpty()) {
             throw new IllegalStateException("SECRET_KEY environment variable is not set!");
         }
