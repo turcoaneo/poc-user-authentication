@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
+import org.springframework.http.ResponseEntity;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +34,7 @@ public class UserControllerTest {
 
         ResponseEntity<String> token = userController.login("user", "password");
 
-        assertEquals("mockJWT", token.body());
+        assertEquals("mockJWT", token.getBody());
         verify(userService).authenticateUser("user", "password");
     }
 
