@@ -31,9 +31,9 @@ public class UserControllerTest {
     void testLogin() {
         when(userService.authenticateUser("user", "password")).thenReturn("mockJWT");
 
-        String token = userController.login("user", "password");
+        ResponseEntity<String> token = userController.login("user", "password");
 
-        assertEquals("mockJWT", token);
+        assertEquals("mockJWT", token.body());
         verify(userService).authenticateUser("user", "password");
     }
 

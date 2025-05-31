@@ -47,7 +47,13 @@ public class UserController {
 
     @Operation(summary = "Authenticate user and return JWT")
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return userService.authenticateUser(username, password);
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        String jwtToken = userService.authenticateUser(username, password);
+
+        if (jwtToken == null || jwtToken.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+
+        return ResponseEntity.ok(jwtToken);
     }
 }
