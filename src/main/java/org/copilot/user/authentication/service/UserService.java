@@ -5,7 +5,7 @@ import org.copilot.user.authentication.model.dto.UserDTO;
 import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.model.entity.User;
 import org.copilot.user.authentication.repository.UserRepository;
-import org.copilot.user.authentication.service.util.JwtUtil;
+import org.copilot.user.authentication.service.helper.JwtHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
-    private final JwtUtil jwtUtil;
+    private final JwtHelper jwtHelper;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -31,7 +31,7 @@ public class UserService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return jwtUtil.generateToken(user.getUserRole().name()); // Return JWT token
+                return jwtHelper.generateToken(user.getUserRole().name()); // Return JWT token
             }
         }
         return null;

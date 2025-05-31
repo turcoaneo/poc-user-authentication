@@ -1,9 +1,10 @@
-package org.copilot.user.authentication.service.util;
+package org.copilot.user.authentication.service.helper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,9 @@ import java.time.Instant;
 import java.util.Date;
 
 @Component
-public class JwtUtil {
-    @Value("${jwt.expirationMinutes}")
+@NoArgsConstructor
+public class JwtHelper {
+    @Value("${jwt.expirationMinutes: 60}")
     private long expirationMinutes;
 
     public String generateToken(String role) {
@@ -37,7 +39,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public static String getRoleFromToken(String token) {
+    public String getRoleFromToken(String token) {
         try {
             Claims claims = Jwts.parser()
                     .verifyWith(getSigningKey())
