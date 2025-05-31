@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.copilot.user.authentication.model.entity.UserRole;
 import org.copilot.user.authentication.model.entity.User;
 import org.copilot.user.authentication.repository.UserRepository;
+import org.copilot.user.authentication.service.helper.JwtHelper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,12 +28,15 @@ public class UserServiceTest {
     @Spy // Spy ensures real encryption behavior is used
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Spy
+    JwtHelper jwtHelper;
+
     @InjectMocks
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        // No need for openMocks() since @ExtendWith(MockitoExtension.class) is used
+        Assertions.assertNotNull(jwtHelper);
     }
 
     // Test authenticateUser() - Success Case
