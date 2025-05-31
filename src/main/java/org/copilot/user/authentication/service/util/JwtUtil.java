@@ -28,12 +28,13 @@ public class JwtUtil {
 
     private static SecretKey getSigningKey() {
         final String keyName = "SECRET_KEY";
-        final String secretKey = System.getenv(keyName);
-        final String SECRET_KEY = secretKey == null ? System.getProperty(keyName) : System.getenv(keyName);
-        if (SECRET_KEY == null || SECRET_KEY.isEmpty()) {
+        final String secretKey = System.getenv(keyName) != null ? System.getenv(keyName) : System.getProperty(keyName);
+
+        if (secretKey == null || secretKey.isEmpty()) {
             throw new IllegalStateException("SECRET_KEY environment variable is not set!");
         }
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public static String getRoleFromToken(String token) {
