@@ -10,6 +10,7 @@ import org.copilot.user.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 @Tag(name = "User Management", description = "User authentication and management API")
 @RestController
